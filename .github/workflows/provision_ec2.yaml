@@ -1,4 +1,5 @@
-name: Provision t3.micro EC2on:
+name: Provision t3.micro EC2
+on:
   workflow_dispatch:
     inputs:
       ec2-name:
