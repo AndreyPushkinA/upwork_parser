@@ -10,8 +10,8 @@ TIME_IN_PAST = timedelta(minutes=int(os.environ["TIME_IN_PAST"]))
 MIN_BUDGET = int(os.environ["MIN_BUDGET"])
 MIN_RANGE_FROM = int(os.environ["MIN_RANGE_VALUE"])
 MAX_RANGE_FROM = int(os.environ["MAX_RANGE_VALUE"])
-SEARCH_QUERIES = os.environ["SEARCH_QUERIES"].split(",")
-
+#SEARCH_QUERIES = os.environ["SEARCH_QUERIES"].split(",")
+SEARCH_QUERIES = ["data engineer", "airflow"]
 
 def send_msg(text):
     token = os.environ["TELEGRAM_TOKEN"]
