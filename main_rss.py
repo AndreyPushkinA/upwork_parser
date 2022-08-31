@@ -16,11 +16,11 @@ import requests
 TELEGRAM_TOKEN='5531011071:AAGWFFKwFZF0LI4KIA_81GApPzguubXr3ZY'
 TELEGRAM_CHAT_ID=[5228302997, 406962410]
 BAD_COUNTRIES=['India']
-TIME_IN_PAST=timedelta(minutes=5)
+TIME_IN_PAST=timedelta(minutes=1)
 MIN_BUDGET=100
 MIN_RANGE_VALUE=15
 MAX_RANGE_VALUE=35
-SEARCH_QUERIES = ["data engineer", "airflow"]
+SEARCH_QUERIES = ["data engineer", "airflow", "scrapy", "terraform"]
 
 def send_msg(text):
     token = TELEGRAM_TOKEN
@@ -59,9 +59,16 @@ def parse(query):
             continue
 
         print(job_dt)
-        if re.search("Budget", article_desc):
-            budget = int(re.findall('Budget<\/b>:\s\$(.+)', article_desc)[0].replace(",", ""))
-            if int(budget) < MIN_BUDGET:
+        if re.search("Budget<br />", article_desc):
+            budget = re.findall('Budget<br \/>\n\$(\d+).+\$(\d+)', article_desc)
+            budget_min = int(budget[0][0].replace(',', ''))
+            if budget_min < MIN_BUDGET:
+                print(f"Because budget is lower than {MIN_BUDGET}")
+                continue
+        elif re.search("Budget<b>;", article_desc):
+            budget = re.findall('Budget<\/b>: \$([\d,]+)', article_desc)
+            budget_min = int(budget[0].replace(',', ''))
+            if budget_min < MIN_BUDGET:
                 print(f"Because budget is lower than {MIN_BUDGET}")
                 continue
         elif re.search("Hourly Range", article_desc):
